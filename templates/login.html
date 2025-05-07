@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | Password Manager{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2 class="text-center">Login</h2>
+
+        <!-- Flash messages (only login messages) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="alert-messages">
+                    {% for category, message in messages %}
+                        <li class="alert alert-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <!-- Username -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="checkbox" id="show-password" onclick="togglePassword()"> Show Password
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="/signup">Sign up here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+{% endblock %}

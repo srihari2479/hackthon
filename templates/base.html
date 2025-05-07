@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Password Manager{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #2c3e50, #3498db);  /* Gradient Background */
+            color: white;  /* White text on dark background */
+        }
+
+        .header-text {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .header-text h1 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 3.5em;
+            color: #fff;  /* White text color */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;  /* Blue background for buttons */
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;  /* Darker blue on hover */
+        }
+
+        .text-center a {
+            color: #3498db;  /* Blue color for links */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section with Title -->
+    <div class="header-text">
+        <h1>Password Manager</h1>
+    </div>
+
+    <!-- Content from child templates -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

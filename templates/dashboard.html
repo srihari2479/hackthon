@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Password Manager{% endblock %}
+
+{% block content %}
+    <h2>Your Stored Passwords</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="alert-messages">
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Form to Save Password -->
+    <h3>Add New Password</h3>
+    <form action="{{ url_for('save_password_route') }}" method="POST">
+        <div class="form-group">
+            <label for="website">Website:</label>
+            <input type="text" class="form-control" id="website" name="website" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            <input type="checkbox" id="toggleNewPassword"> Show Password
+        </div>
+        <button type="submit" class="btn btn-primary">Save Password</button>
+    </form>
+
+    <!-- Display Saved Passwords -->
+    <h3>Your Stored Passwords</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th>Username</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for password in passwords %}
+            <tr>
+                <td>{{ password.website }}</td>
+                <td>{{ password.username }}</td>
+                <td>
+                    <!-- View Button for Modal -->
+                    <button class="btn btn-info" data-toggle="modal" data-target="#passwordModal{{ password.id }}">
+                        View
+                    </button>
+
+                    <!-- Edit Button -->
+                    <a href="{{ url_for('edit_password', password_id=password.id) }}" class="btn btn-warning">Edit</a>
+
+                    <!-- Delete Button -->
+                    <form action="{{ url_for('delete_password', password_id=password.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this password?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+
+            <!-- Modal for Viewing Password -->
+            <div class="modal fade" id="passwordModal{{ password.id }}" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel{{ password.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Password for {{ password.website }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Username:</strong> {{ password.username }}</p>
+                            <p><strong>Password:</strong> <span id="passwordText{{ password.id }}">{{ password.password }}</span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/logout" class="btn btn-danger">Logout</a>
+
+    <!-- JavaScript for Show/Hide Passwords -->
+    <script>
+        // Show/hide new password in form
+        document.getElementById("toggleNewPassword").addEventListener("change", function() {
+            var newPasswordInput = document.getElementById("password");
+            newPasswordInput.type = this.checked ? "text" : "password";
+        });
+    </script>
+{% endblock %}
